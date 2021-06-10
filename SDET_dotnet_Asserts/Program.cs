@@ -31,15 +31,19 @@ namespace UnoSquare_Maintenance
         }
 
         #region Google Locators
-        By GoogleSearchBar = By.XPath("need maintenance");
-        By GoogleSearIcon = By.XPath("need maintenance");
-        By UnoSquareGoogleResult = By.XPath("need maintenance");
+        By GoogleSearchBar = By.XPath("//*[@name='q']");
+        By GoogleSearIcon = By.XPath("//*[@name='btnK']");
+        By UnoSquareGoogleResult = By.XPath("//h3[contains(text(),'Unosquare: Digital Transformation Services | Agile')]");
         #endregion
 
         #region UnoSquare Locators
-        By UnoSquareServicesMenu = By.XPath("need maintenance");
-        By PracticeAreas = By.XPath("need maintenance");
-        By ContactUs = By.XPath("need maintenance");
+        By UnoSquareServicesMenu = By.XPath("//*[@href='/Services' and @class='nav-link']");
+        By PracticeAreas = By.XPath("//*[@href='/PracticeAreas' and @class='nav-link']");
+        By ContactUs = By.XPath("//*[@href='/ContactUs' and @class='nav-link link-blue']");
+        //Locators for Assertion
+        By OurDna = By.XPath("//*[@href='/OurDna' and @class='nav-link']");
+        By ArticlesAndEvents = By.XPath("//*[@href='/Articles' and @class='nav-link']");
+
         #endregion 
         static void Main(string[] args)
         {
@@ -54,14 +58,19 @@ namespace UnoSquare_Maintenance
             element = Browser.FindElement(program.GoogleSearchBar);
 
             // Write Assert True that element is present [Google Search] button
+            Assert.IsTrue(element.Displayed);
 
             //Send the text "Unosquare" to the Text Bar
             program.SendText(element, "Unosquare");
 
             // Click on the Search Button
             element = Browser.FindElement(program.GoogleSearIcon);
+            element.Click();
 
             // Write Assert Equal [Unosquare: Digital Transformation Services | Agile Staffing ...] vs [Element.text]
+            element = Browser.FindElement(program.UnoSquareGoogleResult);
+            String unosquareText = "Unosquare: Digital Transformation Services | Agile Staffing ...";
+            Assert.AreEqual(unosquareText, element.Text);
 
             // Locate the first result corresponding to Unosquare and click on the Link
             element = Browser.FindElement(program.UnoSquareGoogleResult);
@@ -69,8 +78,12 @@ namespace UnoSquare_Maintenance
             program.Click(element);
 
             // Write Assert True that element is present [Our Dna] menu object
+            element = Browser.FindElement(program.OurDna);
+            Assert.IsTrue(element.Displayed);
 
             // Write Assert True that element is present [Articles & Events] menu object
+            element = Browser.FindElement(program.ArticlesAndEvents);
+            Assert.IsTrue(element.Displayed);
 
             // Write Assert Equal [Digital transformation solutions] vs [Element.text] h2 ojbect
 
